@@ -83,6 +83,7 @@ export interface ModalProps extends ViewProps {
   deviceHeight: number;
   deviceWidth: number;
   hideModalContentWhileAnimating: boolean;
+  keyboardAvoidingViewBehavior?: "padding" | "height" | "position";
   propagateSwipe: boolean;
   isVisible: boolean;
   onModalShow: () => void;
@@ -140,6 +141,7 @@ export class ReactNativeModal extends React.Component<ModalProps, State> {
       PropTypes.arrayOf(PropTypes.oneOf(['up', 'down', 'left', 'right'])),
       PropTypes.oneOf(['up', 'down', 'left', 'right']),
     ]),
+    keyboardAvoidingViewBehavior: PropTypes.oneOf(["padding", "height", "position"])
     useNativeDriver: PropTypes.bool,
     useNativeDriverForBackdrop: PropTypes.bool,
     style: PropTypes.any,
@@ -738,6 +740,7 @@ export class ReactNativeModal extends React.Component<ModalProps, State> {
       useNativeDriver,
       propagateSwipe,
       style,
+      keyboardAvoidingViewBehavior,
       ...otherProps
     } = this.props;
 
@@ -807,7 +810,7 @@ export class ReactNativeModal extends React.Component<ModalProps, State> {
 
         {avoidKeyboard ? (
           <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+            behavior={keyboardAvoidingViewBehavior}
             pointerEvents="box-none"
             style={computedStyle.concat([{margin: 0}])}>
             {containerView}
